@@ -1,12 +1,29 @@
 import React from 'react';
 import { Switch } from './switch';
 
-const useToggle = () => {
-	const [on, setOnState] = React.useState(false);
+const toggleReducer = (state, action) => {
+	switch (action.type) {
+		case 'TOGGLE': {
+			return { on: !state.on };
+		}
+		case 'ON': {
+			return { on: true };
+		}
+		case 'OFF': {
+			return { on: false };
+		}
+		default: {
+			throw new Error(`Unhandled type: ${action.type}`);
+		}
+	}
+};
 
-	const toggle = () => setOnState((o) => !o);
-	const setOn = () => setOnState(true);
-	const setOff = () => setOnState(false);
+const useToggle = () => {
+	const [{ on }, dispatch] = React.useReducer(toggleReducer, { on: false });
+
+	const toggle = () => dispatch({ type: 'TOGGLE' });
+	const setOn = () => dispatch({ type: 'ON' });
+	const setOff = () => dispatch({ type: 'OFF' });
 
 	return { on, toggle, setOn, setOff };
 };
