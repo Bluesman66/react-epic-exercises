@@ -1,15 +1,21 @@
 import React from 'react';
 import { Switch } from './switch';
 
+const actionTypes = {
+	toggle: 'TOGGLE',
+	on: 'ON',
+	off: 'OFF',
+};
+
 const toggleReducer = (state, action) => {
 	switch (action.type) {
-		case 'TOGGLE': {
+		case actionTypes.toggle: {
 			return { on: !state.on };
 		}
-		case 'ON': {
+		case actionTypes.on: {
 			return { on: true };
 		}
-		case 'OFF': {
+		case actionTypes.off: {
 			return { on: false };
 		}
 		default: {
@@ -21,9 +27,9 @@ const toggleReducer = (state, action) => {
 const useToggle = () => {
 	const [{ on }, dispatch] = React.useReducer(toggleReducer, { on: false });
 
-	const toggle = () => dispatch({ type: 'TOGGLE' });
-	const setOn = () => dispatch({ type: 'ON' });
-	const setOff = () => dispatch({ type: 'OFF' });
+	const toggle = () => dispatch({ type: actionTypes.toggle });
+	const setOn = () => dispatch({ type: actionTypes.on });
+	const setOff = () => dispatch({ type: actionTypes.off });
 
 	return { on, toggle, setOn, setOff };
 };
